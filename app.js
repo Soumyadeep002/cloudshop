@@ -9,7 +9,7 @@ app.use('/api', userRouter);
 
 const mongoose = require("mongoose");
 
-mongoose.connect("mongodb://127.0.0.1:27017/cloudeshop");
+mongoose.connect(process.env.DBHOST);
 
 // app.get('/', function (req, res) {
 //   res.send('Hello World')

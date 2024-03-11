@@ -1,5 +1,5 @@
 const User = require("../models/userModel");
-
+const jwt = require("jsonwebtoken")
 const bcryptjs = require("bcryptjs");
 
 const securePassword = async(password)=>{
@@ -14,6 +14,14 @@ const securePassword = async(password)=>{
     
 }
 
+const createToken = async(id)=>{
+    try {
+        const token = await jwt.sign({_id:id}, process.env.JWT_SECRET)
+        return token;
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
+}
 
 const registerUser = async (req, res) => {
     try {
@@ -42,7 +50,49 @@ const registerUser = async (req, res) => {
     }
 };
 
+const loginUser= async(req, res) => {
+    try {
+        const email = req.body.email
+        const password = req.body.password
+
+        const userData = await User.findOne({
+            email:email
+        });
+
+        if (userData) {
+            const jwtToken = await createToken(userData._id)
+            const passMatch = await bcryptjs.compare(password, userData.password);
+            if (passMatch) {
+                const userResult = {
+                    _id: userData._id,
+                    name:userData.name,
+                    email:userData.email,
+                    phone:userData.phone,
+                    password:userData.password,
+                    type:userData.type,
+                    token: jwtToken
+                }
+                const response ={
+                    success:true,
+                    msg: "User Details",
+                    data: userResult
+                }
+                res.status(200).send(response)
+
+            } else {
+                res.status(200).send({success:false, msg:"Incorrect Login Details"});
+            }
+        } else {
+            res.status(200).send({success:false, msg:"Incorrect Login Details"});
+        }
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
+}
+
+
 
 module.exports = {
-    registerUser
+    registerUser,
+    loginUser
 }

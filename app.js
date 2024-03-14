@@ -6,7 +6,7 @@ var indexRouter = require('./routes/index');
 var userRouter = require('./routes/user');
 
 app.use(cors({
-    origin: "http://localhost:4200",
+    origin: "*",
 }))
 
 app.use('/', indexRouter);

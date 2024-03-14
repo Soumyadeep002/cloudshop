@@ -10,19 +10,16 @@ const verifyToken = async(req, res, next)=>{
         })
     } else{
         try {
-
             const decode = await jwt.verify(token, process.env.JWT_SECRET);
             req.user = decode
             return next();
-            
+
         } catch (error) {
             res.status(400).send({
                 success:false, 
                 msg:"Invalid Token"
             })
-        }
-
-        
+        }       
     }
 }
 

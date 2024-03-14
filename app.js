@@ -1,8 +1,13 @@
 const express = require('express')
+const cors = require('cors')
 const app = express()
 require('dotenv').config();
 var indexRouter = require('./routes/index');
 var userRouter = require('./routes/user');
+
+app.use(cors({
+    origin: "http://localhost:4200",
+}))
 
 app.use('/', indexRouter);
 app.use('/api', userRouter);

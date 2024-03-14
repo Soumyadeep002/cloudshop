@@ -2,7 +2,7 @@ const express = require('express')
 const index = express()
 
 index.get('/', function (req, res) {
-  res.send('Hello World')
+  res.send('Cloudshop API Service -  running ...')
 })
 
 module.exports = index;

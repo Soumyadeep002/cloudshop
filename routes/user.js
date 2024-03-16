@@ -11,6 +11,7 @@ const userController = require("../controllers/userController");
 
 user_route.post('/register', userController.registerUser);
 user_route.post('/login', userController.loginUser);
+user_route.post('/forget-password', userController.forgetPassword);
 
 const authUser = require("../middlewares/authUser");
 

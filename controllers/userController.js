@@ -3,6 +3,8 @@ const User = require("../models/userModel");
 const jwt = require("jsonwebtoken")
 const bcryptjs = require("bcryptjs");
 const cookieParser = require("cookie-parser");
+const randomstring = require("randomstring")
+const nodemailer = require("nodemailer");
 
 const app = express();
 
@@ -18,6 +20,42 @@ const securePassword = async(password)=>{
     }
 
     
+}
+
+const sendPasswordResetMail = async(email, token) =>{
+    try {
+        const transporter = nodemailer.createTransport({
+            host:process.env.MAIL_HOST,
+            port:process.env.MAIL_PORT,
+            secure:false,
+            requireTLS: true,
+            auth:{
+                user:process.env.MAIL_USER,
+                pass:process.env.MAIL_PASSWORD
+            }
+        });
+
+        const mailOptions ={
+            from:process.env.MAIL_USER,
+            to: email,
+            subject: "Password Reset Link",
+            html: '<p><a href="https://www.google.com/search?q='+token+'">Click here</a> to reset your Password</p>'
+        }
+
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log("Mail Sent !!!", info.response);
+                
+            }
+        })
+
+
+        
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
 }
 
 const createToken = async(id)=>{
@@ -97,9 +135,50 @@ const loginUser= async(req, res) => {
     }
 }
 
+const forgetPassword = async(req, res) =>{
+
+    try {
+
+        const email = req.body.email;
+        const userData = await User.findOne({email: email});
+        if (userData) {
+
+            const randomString = randomstring.generate();
+
+            sendPasswordResetMail(userData.email, randomString)
+
+            const data = await User.updateOne(
+                {
+                email:email
+                },
+                {
+                    $set:{
+                        token:randomString
+                    }
+                });
+
+            res.status(200).send({
+                success: true,
+                msg: "Password Reset Token has been set"
+            })
+            
+        }else{
+            res.status(200).send({
+                success: true,
+                msg: "No User found having this email. Register as New !!!"
+            })
+        }
+        
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
+
+}
+
 
 
 module.exports = {
     registerUser,
-    loginUser
+    loginUser,
+    forgetPassword
 }

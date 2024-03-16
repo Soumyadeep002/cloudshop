@@ -1,6 +1,12 @@
+const express = require('express');
 const User = require("../models/userModel");
 const jwt = require("jsonwebtoken")
 const bcryptjs = require("bcryptjs");
+const cookieParser = require("cookie-parser");
+
+const app = express();
+
+app.use(cookieParser());
 
 const securePassword = async(password)=>{
     try {
@@ -77,6 +83,7 @@ const loginUser= async(req, res) => {
                     msg: "User Details",
                     data: userResult
                 }
+                res.cookie('jwt', jwtToken);
                 res.status(200).send(response)
 
             } else {

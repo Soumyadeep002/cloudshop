@@ -21,6 +21,6 @@ mongoose.connect(process.env.DBHOST);
 //   res.send('Hello World')
 // })
 
-app.listen(3000, ()=>{
-    console.log("Server Running");
+app.listen(process.env.PORT, ()=>{
+    console.log(`Server Running on PORT:${process.env.PORT}`);
 })

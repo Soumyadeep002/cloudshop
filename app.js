@@ -14,7 +14,7 @@ app.use('/api', userRouter);
 
 const mongoose = require("mongoose");
 
-mongoose.connect(process.env.DBHOST);
+mongoose.connect("mongodb+srv://cloudshop:TphuAwjbpfXMgtkX@cluster1.hi4f3el.mongodb.net/cloudshop?retryWrites=true&w=majority&appName=Cluster1");
 
 
 // app.get('/', function (req, res) {

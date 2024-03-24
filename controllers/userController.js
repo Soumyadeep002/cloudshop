@@ -47,7 +47,7 @@ const sendPasswordResetMail = async(email, token) =>{
                 console.log(error);
             } else {
                 console.log("Mail Sent !!!", info.response);
-                
+                                
             }
         })
 
@@ -145,7 +145,7 @@ const forgetPassword = async(req, res) =>{
 
             const randomString = randomstring.generate();
 
-            sendPasswordResetMail(userData.email, randomString)
+            sendPasswordResetMail(userData.email, randomString);
 
             const data = await User.updateOne(
                 {
@@ -159,7 +159,8 @@ const forgetPassword = async(req, res) =>{
 
             res.status(200).send({
                 success: true,
-                msg: "Password Reset Token has been set"
+                msg: "Password Reset Token has been set",
+                mail: mailData
             })
             
         }else{

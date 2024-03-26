@@ -15,6 +15,7 @@ user_route.post('/register', userController.registerUser);
 user_route.post('/login', userController.loginUser);
 user_route.post('/forget-password', userController.forgetPassword);
 user_route.post('/register-customer', customerController.registerCustomer);
+user_route.get('/customers', customerController.viewCustomers);
 
 
 user_route.get('/dashboard', authUser, function(req, res){

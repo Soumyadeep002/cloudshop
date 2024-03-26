@@ -39,8 +39,20 @@ const registerCustomer = async (req, res) => {
     }
 };
 
+const viewCustomers = async (req, res) =>{
+    try {
+        const customersData = await Customer.find().populate('address');
+        
+        res.status(200).send({ success: true, data: customersData});
+    } catch (error) {
+        res.status(400).send({ success: false, msg: error.message });
+        console.error(error.message);
+    }
+}
+
 
 
 module.exports = {
-    registerCustomer
+    registerCustomer,
+    viewCustomers
 }

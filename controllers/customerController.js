@@ -58,7 +58,7 @@ const deleteCustomer = async (req, res) =>{
         const deletedCustomer = await Customer.findByIdAndDelete(customerId);
         
         if (!deletedCustomer) {
-            return res.status(404).send('Product not found');
+            return res.status(404).send('Customer not found');
         }
 
         res.send('Customer deleted successfully');

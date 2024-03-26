@@ -8,6 +8,7 @@ user_route.use(body_parser.urlencoded({extended:true}));
 
 const userController = require("../controllers/userController");
 const customerController = require("../controllers/customerController");
+const productController = require("../controllers/productController");
 
 const authUser = require("../middlewares/authUser");
 
@@ -16,6 +17,9 @@ user_route.post('/login', userController.loginUser);
 user_route.post('/forget-password', userController.forgetPassword);
 user_route.post('/register-customer', customerController.registerCustomer);
 user_route.get('/customers', customerController.viewCustomers);
+user_route.get('/delete-customers/:id', customerController.deleteCustomer);
+user_route.post('/add-product', productController.addProduct);
+user_route.post('/add-product-category', productController.addProductCategory);
 
 
 user_route.get('/dashboard', authUser, function(req, res){

@@ -13,7 +13,6 @@ app.use('/', indexRouter);
 app.use('/api', userRouter);
 
 const mongoose = require("mongoose");
-
 mongoose.connect(process.env.DBHOST);
 
 

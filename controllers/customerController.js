@@ -50,9 +50,29 @@ const viewCustomers = async (req, res) =>{
     }
 }
 
+const deleteCustomer = async (req, res) =>{
+    try {
+
+        const customerId = req.params.id;
+
+        const deletedCustomer = await Customer.findByIdAndDelete(customerId);
+        
+        if (!deletedCustomer) {
+            return res.status(404).send('Product not found');
+        }
+
+        res.send('Customer deleted successfully');
+        
+    } catch (error) {
+        res.status(400).send({ success: false, msg: error.message });
+        console.error(error.message);
+    }
+}
+
 
 
 module.exports = {
     registerCustomer,
-    viewCustomers
+    viewCustomers,
+    deleteCustomer
 }

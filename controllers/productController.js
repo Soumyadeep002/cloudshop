@@ -18,7 +18,7 @@ const addProduct = async (req, res) => {
 
             const product = new Product({
                 title: req.body.title,
-                category: req.body.category,
+                productcatagory: req.body.category,
                 purchase_price: req.body.purchase_price,
                 selling_price: req.body.selling_price,
                 stock: req.body.stock
@@ -33,6 +33,18 @@ const addProduct = async (req, res) => {
         console.error(error.message);
     }
 };
+
+const viewProduct = async (req, res) =>{
+    try {
+        const ProductData = await Product.find().populate({ path: 'productcatagory' });
+        
+        res.status(200).send({ success: true, data: ProductData});
+        
+    } catch (error) {
+        res.status(400).send({ success: false, msg: error.message });
+        console.error(error.message);
+    }
+}
 
 const addProductCategory = async (req, res) => {
     try {
@@ -81,6 +93,6 @@ const viewProductCategory = async (req, res) => {
 module.exports = {
     addProduct,
     addProductCategory,
-    viewProductCategory
-    // viewProduct
+    viewProductCategory,
+    viewProduct
 }

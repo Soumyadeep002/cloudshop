@@ -20,6 +20,8 @@ user_route.get('/customers', customerController.viewCustomers);
 user_route.get('/delete-customers/:id', customerController.deleteCustomer);
 user_route.post('/add-product', productController.addProduct);
 user_route.post('/add-product-category', productController.addProductCategory);
+user_route.post('/add-product-category', productController.addProductCategory);
+user_route.get('/view-product-category', productController.viewProductCategory);
 
 
 user_route.get('/dashboard', authUser, function(req, res){

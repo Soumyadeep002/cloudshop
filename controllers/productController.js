@@ -50,6 +50,17 @@ const addProductCategory = async (req, res) => {
     }
 };
 
+const viewProductCategory = async (req, res) => {
+    try {
+        const categoryData = await ProductCategory.find();
+        
+        res.status(200).send({ success: true, data: categoryData});
+    } catch (error) {
+        res.status(400).send({ success: false, msg: error.message });
+        console.error(error.message);
+    }
+}
+
 
 
 
@@ -69,6 +80,7 @@ const addProductCategory = async (req, res) => {
 
 module.exports = {
     addProduct,
-    addProductCategory
+    addProductCategory,
+    viewProductCategory
     // viewProduct
 }
